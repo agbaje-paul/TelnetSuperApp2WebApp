@@ -1,0 +1,33 @@
+{
+  "name": "TelnetSuperApp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tnl-sfw/TelnetSuperApp.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/tnl-sfw/TelnetSuperApp/issues"
+  },
+  "homepage": "https://github.com/tnl-sfw/TelnetSuperApp#readme",
+  "dependencies": {
+    "bcrypt": "^5.0.0",
+    "body-parser": "^1.19.0",
+    "config": "^3.3.1",
+    "connect-flash": "^0.1.1",
+    "ejs": "^3.1.3",
+    "express": "^4.17.1",
+    "express-session": "^1.17.1",
+    "joi": "^17.2.1",
+    "nodemon": "^2.0.4",
+    "request": "^2.88.2"
+  }
+}

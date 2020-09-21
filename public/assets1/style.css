@@ -1,0 +1,156 @@
+body{
+  padding: 0px;
+  margin: 0px;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.header {
+  position: fixed;
+  width: 100%;
+  padding: 10px 30px;
+  display: flex;
+  z-index: 1000;
+  justify-content: space-between;
+}
+
+.header h1 {
+  color: white;
+  font-size: 30px;
+}
+
+.header p {
+  font-size: 15px;
+}
+
+.blue {
+  color: Blue;
+
+}
+
+.front-page-container {
+  height: 100% ;
+  overflow: hidden ;
+}
+
+
+.form-container {
+  display: flex;
+  align-items: center;
+  margin:auto;
+  width: 650px;
+  height: 100%;
+}
+
+.form-container form {
+  width: 100%;
+  margin: auto;
+}
+
+.form-group{
+  display: flex;
+  justify-content: space-between;
+}
+
+h1 {
+  color: #111B60;
+  font-size: 40px;
+}
+
+p {
+  font-size: 18px;
+  color: #72778F;
+}
+
+.form-item {
+  width: 49%;
+}
+
+.side-img {
+  width: 100%;
+  overflow: hidden;
+}
+
+.side-img img {
+  object-fit: contain;
+}
+
+.checkbox {
+  display: flex;
+  margin:auto;
+}
+
+.form-bottom {
+  margin: 25px 0;
+  width: 50%;
+}
+
+.form-top{
+  margin-top: 30px;
+}
+
+.form-bottom label, .form-bottom p {
+  font-weight: 400;
+  font-size: 15px;
+  margin: 0;
+}
+
+.link {
+  color: blue;
+}
+
+.form-line {
+  width: 40px;
+  border: 0.5px solid #A2A6BB;
+}
+
+.checkbox input[type=checkbox] {
+  width: 12px;
+  height: 12px;
+  margin-right: 5px;
+  margin-left: 0;
+}
+
+input {
+  height: 50px;
+  padding: 10px 20px;
+  background: #EEF4FE;
+  outline: none;
+  border: 0;
+  width: 100%;
+  border-radius: 15px;
+}
+
+label {
+  display: block;
+  margin-bottom: 10px;
+  font-size: 15px;
+  font-weight: 600;
+  color: #72778F;
+}
+
+button {
+  background: #4848FF;
+  padding: 10px 20px;
+  border: 0px;
+  height: 50px;
+  width: 49%;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  outline: none;
+  border-radius: 20px;
+}
+
+footer {
+  padding: 10px 20px;
+  width: 100%;
+  left: 10px;
+  bottom: 10px;
+  position: fixed;
+  z-index: 1000;
+}
+
+footer p {
+  color: white;
+  font-size: 13px;
+}

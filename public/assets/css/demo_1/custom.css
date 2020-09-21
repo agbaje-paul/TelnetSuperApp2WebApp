@@ -1,0 +1,24 @@
+.card-special{
+    background: transparent;
+    box-shadow: none;
+    border:0px;
+  }
+
+.card-special tr:hover {
+    background-color: rgb(240, 240, 248);
+    cursor: pointer;
+}
+
+.card-special tr {
+    background-color: white;
+
+}
+
+.card-special .table td {
+    box-sizing: content-box;
+    background-color: transparent;
+    padding: 1.35rem 0.9375rem;
+    border-top:5px solid #f9fafb;
+    border-bottom:5px solid #f9fafb;
+}
+

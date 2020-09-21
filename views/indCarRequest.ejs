@@ -1,0 +1,223 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Telnet SuperApp</title>
+	<!-- core:css -->
+	<link rel="stylesheet" href="../../../assets/vendors/core/core.css">
+	<!-- endinject -->
+  <!-- plugin css for this page -->
+  <link rel="stylesheet" href="../../../assets/vendors/simplemde/simplemde.min.css">
+  <link rel="stylesheet" href="../../../assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css">
+	<!-- end plugin css for this page -->
+	<!-- inject:css -->
+	<link rel="stylesheet" href="../../../assets/fonts/feather-font/css/iconfont.css">
+	<link rel="stylesheet" href="../../../assets/vendors/flag-icon-css/css/flag-icon.min.css">
+	<link rel="stylesheet" href="../../../assets/vendors/mdi/css/materialdesignicons.min.css">
+	<!-- endinject -->
+  <!-- Layout styles -->  
+  <link rel="stylesheet" href="../../../assets/css/demo_1/style.css">
+  <link rel="stylesheet" href="../../../assets/css/demo_1/custom.css">
+  <!-- End layout styles -->
+  <link rel="shortcut icon" href="../../../assets/images/favicon.png" />
+</head>
+<body>
+	<div class="main-wrapper">
+
+
+        <!-- Insert the sidebar partial here-->
+        <% if (userDetails.role == 'Staff') { %>
+          <%- include('./bars/sidebar_staff') %>
+          <% } else if (userDetails.role == 'Supervisor') { %>
+          <%- include('./bars/sidebar_sup') %>  
+          <%  } else if (userDetails.role == 'Driver Admin') { %>
+          <%- include('./bars/sidebar_driver') %>  
+          <%  } else if (userDetails.role == 'Driver') { %>
+          <%- include('./bars/sidebar_carDriver') %>  
+          <%  } else { %>
+          <%- include('./bars/sidebar') %>    
+          <%  } %>
+	
+		<div class="page-wrapper">
+				
+			<!-- partial:partials/_navbar.html, this represents the topbar bar -->
+      <%- include('./bars/topbar') %>
+			<!-- partial -->
+
+			<div class="page-content">
+        <div class="d-flex">
+          <div class="col-sm-8">
+            <div class="row">
+              <div class="col-sm-12">
+                <div>
+                  <h4 class="mb-3 mb-md-0">Car Requests <a class="text-primary">01/09/2020</a></h4>
+                  <div class="sub-heading"><p class="mb-3 mb-md-0">All tickets <i class="i mr-2" data-feather="chevron-right"></i><span> 24 <i class="i mr-3" data-feather="mail"></i> </span> Overdue by 21 days </p></div>
+                </div>
+                <div class="d-flex align-items-center flex-wrap text-nowrap mt-3">
+                  <button type="button" class="btn btn-outline-light2 thread-btn btn-icon-text mr-3 mb-md-0">
+                    <i class="btn-icon-prepend mr-0" data-feather="star"></i>
+                  </button>
+                  <button type="button" class="btn btn-outline-light2 thread-btn rounded-0 btn-icon-text d-none d-md-block">
+                    <i class="btn-icon-prepend mdi mdi-reply-all"></i>
+                    Reply
+                  </button>
+                  <button type="button" class="btn btn-outline-light2 thread-btn rounded-0 btn-icon-text mb-2 mb-md-0">
+                    <i class="btn-icon-prepend" data-feather="printer"></i>
+                    Add note
+                  </button>
+                  <button type="button" class="btn btn-outline-light2 thread-btn rounded-0 btn-icon-text d-none d-md-block">
+                    <i class="btn-icon-prepend mdi mdi-reply"></i>
+                    Forward
+                  </button>
+                  <button type="button" class="btn btn-outline-light2 thread-btn rounded-0 btn-icon-text d-none d-md-block">
+                    <i class="btn-icon-prepend" data-feather="download"></i>
+                    Close
+                  </button>
+                  <button type="button" class="btn btn-outline-light2 thread-btn rounded-0 btn-icon-text mb-md-0">
+                    <i class="btn-icon-prepend" data-feather="trash-2"></i>
+                    Delete
+                  </button>
+                  <button type="button" class="btn btn-outline-light2 thread-btn btn-icon-text ml-3 mb-md-0">
+                    <i class="btn-icon-prepend mr-0" data-feather="more-vertical"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-5">
+              <div class="col-sm-12">
+                <form class="" action="/requests/individual_request" method="post">
+                <div class="thread-box">
+                  <div class="thread-head d-flex justify-content-between p-4">
+                    <div class="thread-desc d-flex">
+                      <div class="thread-profile mr-2"><img src="" alt=""></div>
+                      <div>
+                        <h5 class="font-weight-bold">New Car Request</h5>
+                        <p><span><a href="" class="text-primary"></a></span></p>
+                    </div>
+                    </div>
+                    <div class="thread-more">
+                      <p class="text-light2">a day ago ( Wed 08 2018 at 08:15AM )<i class="btn-icon-prepend ml-3 pr-0 mr-0" data-feather="more-vertical"></i></p>
+                    </div>
+                  </div>
+                  <div class="thread-body p-5">
+                    <h5 class="font-weight-bold">comments:</h5>
+                    <p><%= data.purpose%></p>
+                  </div>
+                  <div class="thread-foot p-4 d-flex justify-content-between">
+                    <h5>Take Action</h5>
+                   <div>
+                      <button class="btn btn-success mr-2 rounded-pill" type = "submit" name = "button"value = true>Accept</button><button class="btn btn-danger rounded-pill" type = "submit" name = "button"value = false>Reject</button>
+                    </div>
+                  </div>
+                </div>
+
+                <hr>
+                <h3> Specify The Reason for Rejection Or Acceptance</h3>
+                <br><br>
+                <div class="row">
+                  <div class="col-md-12 grid-margin stretch-card">
+                    <div class="card">
+                      <div class="card-body">
+                        <textarea class="form-control" name="upline_reason" id="simpleMdeExample" rows="10" ></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <div class="col-sm-4 thread-sidebar d-flex">
+            <div class="col-sm-6 pt-4">
+
+                <h5>Properties</h5>
+                <br>
+                <div class="form-group">
+                  <label for="exampleFormControlSelect1">Type: Car Request</label>
+
+                </div>
+                <div class="form-group">
+                  <label for="exampleFormControlSelect1">Status:</label>
+                  <button class="btn btn-success mr-2 rounded-pill" ></button>
+                </div>
+                <div class="form-group">
+                  <label for="exampleFormControlSelect1">Priority</label>
+                  <select name= "priority" class ="form-control" id = priority required>
+                    <option selected value= "1"> --- </option>
+                    <option value = "1"> 1 </option>
+                    <option value = "2"> 2 </option>
+                    <option value = "3"> 3 </option>
+                    <option value = "4"> 4 </option>
+                    <option value = "5"> 5 </option>
+                  </select>
+                </div>
+
+
+              </form>
+            </div>
+            <div class="col-sm-6 border-left pt-4">
+
+                <div class="d-flex justify-content-between">
+                  <h5>Contact Details <span><small></small></span></h5><a class="text-primary">edit</a>
+                </div>
+                <br>
+                <div class="Profile">
+                  <div class="dropdown-header d-flex flex-column align-items-center">
+                    <div class="figure mb-3">
+                      <img src="https://via.placeholder.com/80x80" alt="">
+                    </div>
+                    <div class="info text-center">
+                      <p class="name font-weight-bold mb-0"><%=data.requester_name%></p>
+                    </div>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="exampleFormControlSelect1">Email:</label>
+                  <span><%=data.requester_email%></span>
+                  
+                </div>
+                <div class="form-group">
+                  <label for="exampleFormControlSelect1">Phones:</label>
+                  <span><%=data.requester_phone%></span>
+                </div>
+                <div class="form-group">
+                  <label for="exampleFormControlSelect1">Assigned To:</label>
+                  <span> <%= userDetails.first_name + ' ' + userDetails.last_name %></span>
+                </div>
+
+            </div>
+          </div>
+        </div>
+     </div>
+
+			<!-- partial:../../partials/_footer.html -->
+			<footer class="footer d-flex flex-column flex-md-row align-items-center justify-content-between">
+				<p class="text-muted text-center text-md-left">Copyright © 2020 <a href="https://www.nobleui.com" target="_blank">TELNET</a>. All rights reserved</p>
+				<p class="text-muted text-center text-md-left mb-0 d-none d-md-block">Handcrafted With <i class="mb-1 text-primary ml-1 icon-small" data-feather="heart"></i></p>
+			</footer>
+			<!-- partial -->
+	
+		</div>
+	</div>
+
+	<!-- core:js -->
+	<script src="../../../assets/vendors/core/core.js"></script>
+	<!-- endinject -->
+  <!-- plugin js for this page -->
+  <script src="../../../assets/vendors/simplemde/simplemde.min.js"></script>
+  <script src="../../../assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+	<!-- end plugin js for this page -->
+	<!-- inject:js -->
+	<script src="../../../assets/vendors/feather-icons/feather.min.js"></script>
+	<script src="../../../assets/js/template.js"></script>
+	<!-- endinject -->
+  <!-- custom js for this page -->
+  <script src="../../../assets/js/simplemde.js"></script>
+  <script src="../../../assets/js/dashboard.js"></script>
+  <script src="../../../assets/js/datepicker.js"></script>
+  <!-- end custom js for this page -->
+</body>
+</html>
