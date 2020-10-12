@@ -85,11 +85,25 @@
                     <tbody>
                       <% data.forEach((item) => {%>
                     <!-- here you have to come back to add the pill thing to this page if it is accepted pending or rejected-->
+
+                      <% var purpose %>
+                      <%if (item.purpose == null) { %>
+                        <%purpose = 'Multiple purposes' %>
+                        <%} else { %>
+                          <%purpose = item.purpose %>
+                          <%} %>
+
+                          <%var destination %>
+                          <%if (item.destination == null) { %>
+                            <%destination = 'Multiple destination' %>
+                            <%} else { %>
+                              <%destination = item.destination %>
+                              <%} %>
                         <tr>
                           <td><%= item.trip_type%></td>
                           <td><%=item.request_type %></td>
-                          <td><%= item.destination%></td>
-                          <td><%= item.purpose%></td>
+                          <td><%= destination%></td>
+                          <td><%= purpose%></td>
                           <td><%= item.upline_approval%></td>
                           <!--  <td><%= item.upline_reason%></td> -->
                           

@@ -15,28 +15,33 @@ const {
     startTrip,
     handleStartTrip,
     dropOff,
+    handledropOff,
     staffStartTrip,
     staffHandleStartTrip,
     staffEndTrip
 } = logistics_controllers;
 
-// this is used to the get the list of trips for a particular driver.
-router.get('/getTrip', [checkSession], getTrips),
+//you need to change some of these to post requests
 
-router.get('/createTrip', [checkSession], createTrip),
-router.post('/createTrip', [checkSession], handlecreateTrip),
+// this is used to the get the list of trips for a particular driver.
+router.get('/getTrip', [checkSession], getTrips)
+
+router.get('/createTrip', [checkSession], createTrip)
+router.post('/createTrip', [checkSession], handlecreateTrip)
 
 // this are the routes to start the trip
-router.get('/startTrip', [checkSession], startTrip),
-router.get('/handleStartTrip', [checkSession], handleStartTrip),
+router.get('/startTrip', [checkSession], startTrip)
+router.get('/handleStartTrip', [checkSession], handleStartTrip)
 
 router.get('/dropOff', checkSession, dropOff)
+router.post('/dropOff', checkSession, handledropOff)
 router.get('/endTrip', [checkSession], endTrip)
+//router.post('/endTrip', [checkSession], handleendTrip)
 
 //theses are the routes for the staff to start and end the trips they have.
-router.get('/staffStartTrip', [checkSession], staffStartTrip),
-router.get('/staffHandleStartTrip', [checkSession], staffHandleStartTrip),
+router.get('/staffStartTrip', [checkSession], staffStartTrip)
+router.get('/staffHandleStartTrip', [checkSession], staffHandleStartTrip)
 
-router.get('/staffEndTrip', [checkSession], staffEndTrip)
+router.post('/staffEndTrip', [checkSession], staffEndTrip)
 
 module.exports = router;

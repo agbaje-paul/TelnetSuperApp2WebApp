@@ -80,10 +80,10 @@
                         <!-- you need to come back here and add things in capital letter-->
                         
                       <tr>
-                        <th>Staff Name</th>
-                        <th>Staff Email</th>
+                        <th>Driver Name</th>
+                        <th>Staff Phone</th>
                         <th>Pickup Address </th>
-                        <th>Destination</th>
+                        <th>Trip Duration</th>
                         <th>Trip Type</th>
                         <th>Vehicle Information</th>
                         <th>Start Trip</th>
@@ -91,18 +91,19 @@
                     </thead>
                     <!-- you may need to come back to change the outlook of the table to make it a two column table-->
                     <tbody>
-                      <% trip.forEach((item) => { %>
+                      <% trips.forEach((item) => { %>
 
                       
                         <tr>
-                          <td><%= item.staff_name%></td>
-                          <td><%= item.staff_email %></td>
-                          <td><%= item.pickup_address%></td>
-                          <td><%= item.destination%></td>
+                          <td><%= item.driver_name%></td>
+                          <td><%= item.driver_phone %></td>
+                          <td><%= item.trip_details[0].id%></td>
+                          <td><%= item.trip_duration%></td>
                           <td><%= item.trip_type%></td>
                           <td><%= item.vehicle_info%></td>
                           <td> <a href="/logistics/staffHandleStartTrip" id='<%=item.id%>' class="btn btn-sm btn-success rounded-pill" > Start Trip</button></td>
                         </tr>
+                        
                         <% }) %>
                     </tbody>
                   </table>

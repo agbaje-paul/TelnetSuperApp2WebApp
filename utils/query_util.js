@@ -24,8 +24,6 @@ class Consumers {
           body,
         };
         request.post(options, (error, result, resBody) => {
-          console.log('this is the result',result.statusCode)
-          console.log('this is the resbody',result.body)
           if (error) reject(error);
           var resbody = JSON.parse(result.body);
           resolve({result, resbody})
@@ -91,8 +89,6 @@ static getResponse_request(url, token) {
     };
     request.get(options, (error, result, resBody) => {
       if (error) reject(error);
-      console.log('result of request', result.statusCode);
-      console.log('result body', result.body)
       var resbody = JSON.parse(result.body);
       resolve({result, resbody})
     });
@@ -113,8 +109,6 @@ static putResponse(query, url, token) {
       };
       request.put(options, (error, result, resBody) => {
         if (error) reject(error);
-        console.log('result of request', result.statusCode);
-        console.log('result body', result.body)
         var resbody = JSON.parse(result.body);
         resolve({result, resbody})
       });
@@ -134,8 +128,6 @@ static postResponse(query, url) {
       };
       request.post(options, (error, result, resBody) => {
         if (error) reject(error);
-        console.log('result of request', result.statusCode);
-        console.log('result body', result.body)
         var resbody = JSON.parse(result.body);
         resolve({result, resbody})
       });

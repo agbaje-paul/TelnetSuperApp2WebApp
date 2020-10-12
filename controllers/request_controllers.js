@@ -26,17 +26,32 @@ class Requests {
         //you may need to add validation logic to this
         const userDetails = req.session.userDetails
         const token = userDetails.token
-        const query = {
-            requester: userDetails.id,
-            trip_type: req.body.trip_type,
-            request_type: req.body.request_type,
-            destination: req.body.destination,
-            purpose: req.body.purpose,
-            upline: userDetails.upline_id
+        var query
+        if (req.body.trip_type == 'single') {
+            query = {
+                requester: userDetails.id,
+                trip_type: req.body.trip_type,
+                request_type: req.body.request_type,
+                destination: req.body.destination,
+                purpose: req.body.purpose,
+                upline: userDetails.upline_id,
+                trip_duration: req.body.duration
+            }
+
+        } else{
+            query = {
+                requester: userDetails.id,
+                trip_type: req.body.trip_type,
+                request_type: req.body.request_type,
+                upline: userDetails.upline_id,
+                place_set: JSON.parse(req.body.random)
+            }     
         }
+        console.log('the query for the car request is:',query)
         try {
         
             const {result, resbody} = await sendRequest(query, token);
+            console.log('the result body of the request to create event', resbody)
             if (result.statusCode == 201) {
                 req.flash('success_msg', 'You have succesfully created a new vehicle request');
                 return res.redirect('/requests/create_request');
@@ -62,7 +77,6 @@ class Requests {
                 return data.upline_approval == 'PENDING' // need to come back to this to populate the feilds with the data about the users
             });
 
-            console.log('this is the list of the data for requests',data)
 
             req.session.carRequests = resbody
             if (result.statusCode == 200) {
@@ -96,7 +110,6 @@ class Requests {
               });
               car_request = car_request[0];
               req.session.car_request = car_request;
-              console.log('car request',req.session.car_request)
               res.render('indCarRequest', {data:car_request, userDetails});
         }catch(err){
             if (err) return console.error('Error', error)
@@ -128,7 +141,6 @@ class Requests {
         const userDetails = req.session.userDetails;
         const token = userDetails.token;
         const car_request = req.session.car_request;
-        console.log('car request',car_request)
         const id = car_request.id; // you need to come back to all of this.
 
         var stringValue = req.body.button;
@@ -143,17 +155,18 @@ class Requests {
             purpose: car_request.purpose,
             upline: userDetails.id,
             upline_approval: boolValue,
-            upline_reason: req.body.upline_reason 
+            upline_reason: req.body.upline_reason,
+            trip_duration:  car_request.trip_duration
         };
-        console.log('Query', query);
         
         try{
 
             const {result, resbody} = await uplinequery(query, token, id);
             const data = resbody;
-
+            console.log(result.statusCode)
+            console.log(data)
             if (result.statusCode == 200) {
-                if(data.upline_approval == 'APPROVED') {
+                if(data.upline_approval_status == 'APPROVED') {
                     req.flash('success_msg', 'You have successfully accepted a request')
                     res.redirect('/requests/view_request');
                 } else {
@@ -214,8 +227,7 @@ class Requests {
                 
               });
               car_request = car_request[0];
-              req.session.managecar_request = car_request;
-              console.log('car request',req.session.managecar_request);
+              req.session.managecar_request = car_request;;
 
               res.render('manageindCarRequest', {data:car_request, userDetails});
         }catch(err){
@@ -227,7 +239,6 @@ class Requests {
         const userDetails = req.session.userDetails;
         const token = userDetails.token;
         const car_request = req.session.managecar_request;
-        console.log('car request',car_request)
         const id = car_request.id; // you need to come back to all of this.
 
         var stringValue = req.body.button;
@@ -242,9 +253,9 @@ class Requests {
             purpose: car_request.purpose,
             upline: 29,//car_request.upline, // this was taking out to see 
             driver_admin_approval: boolValue,
-            driver_admin_reason: req.body.driver_admin_reason 
+            driver_admin_reason: req.body.driver_admin_reason,
+            trip_duration:  car_request.trip_duration 
         };
-        console.log('Query', query);
         
         try{
 
@@ -301,9 +312,8 @@ class Requests {
         const query = {
             "vehicle_request": car_request.id,
             "vehicle": parseInt(req.query.id),
-            "assigner": userDetails.id
+            "assigner": userDetails.id,
         };
-        console.log("query is",query)
         try {
             const {result, resbody} = await vehicleAssign(query, token)
             if (result.statusCode == 201) {

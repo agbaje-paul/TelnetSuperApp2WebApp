@@ -103,8 +103,28 @@
                     </div>
                   </div>
                   <div class="thread-body p-5">
-                    <h5 class="font-weight-bold">comments:</h5>
-                    <p> <%= data.purpose%></p>
+                    <h5 class="font-weight-bold">Destination:</h5>
+                    <% var destination %>
+                    <%if (data.trip_type == 'single') { %>
+                      <%purpose = [{location: data.destination}] %>
+                      <%} else { %>
+                        <%purpose = data.place_set %>
+                        <%} %>
+                        <% purpose.forEach((item) => {%>
+                        <p><%= item.location%></p>
+                        <% })%>
+
+                      <h5 class="font-weight-bold">Purpose:</h5>
+                      <% var purpose %>
+                      <%if (data.trip_type == 'single') { %>
+                        <%purpose = [{purpose: data.purpose}] %>
+                        <%} else { %>
+                          <%purpose = data.place_set %>
+                          <%} %>
+                          <% purpose.forEach((item) => {%>
+                          <p><%= item.purpose%></p>
+                          <% })%>
+
                   </div>
                   <div class="thread-foot p-4 d-flex justify-content-between">
                     <h5>Take Action</h5>

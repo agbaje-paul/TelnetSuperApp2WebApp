@@ -70,6 +70,39 @@
                 </div>
 <!--- this is the place to insert maps to get the list of the things-->
 <div id="map" style="height: 400px; width: auto;"></div>
+<button class="btn-lg btn-primary" type="button" style = "width: 150px; height: 35px; float: right; margin-top: 30px; padding: 0px;" data-toggle="modal" data-target="#qualificationsModal">End Trip</button>
+
+<div class="modal fade text-left" id="qualificationsModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel1"
+aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="myModalLabel1">Enter your satisfactory level from trip</h3>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <form class="" action="/logistics/staffEndTrip" method="post">
+
+              <div class="form-group">
+                <label for="exampleFormControlSelect1">Level of satisfaction</label>
+                <select class="form-control-lg"  name= "level" class="form-control" id="type" required>
+                  <option selected disabled> ---</option>
+                  <option value = "high_unsatisfactory">Highly Unsatisfactory</option>
+                  <option value = "unsatisfactory"> Unsatisfactory</option>
+                  <option value = "average">Average</option>
+                  <option value = "satisfactory"> Satisfactory</option>
+                  <option value = "high_satisfactory">Highly Satisfactory</option>
+                </select>
+              </div>
+
+              <button id='dropoff' class="btn btn-sm btn-success rounded-pill" type="submit"> End trip </button>
+              </form>
+            
+        </div>
+    </div>
+</div>
 <script>
   function initMap(){
     // Map options
@@ -157,7 +190,6 @@
   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDzIxxHnTz0YcB6mp_QnaPdNuvsiaM1rTw&callback=initMap">
   </script>
 
-          <a href="/logistics/staffEndTrip" id='endtrip' class="btn btn-sm btn-success rounded-pill"> End Trip </a>
 
 
 
