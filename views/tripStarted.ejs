@@ -57,7 +57,7 @@
 					</ol>
         </nav>
 
-        <form class="" action="/logistics/dropOff" method="post">
+        
 
 
 				<div class="row">
@@ -70,9 +70,7 @@
                   </div>
 
                 </div>
-                <div id="hide">
-                  <input name= "pickup_coordinate" class="form-control" id="pickup_coordinate">
-                </div>
+
 
                 <div>
                   <input name= "pickup_try" class="form-control" id="pickup_try">
@@ -84,8 +82,9 @@
 
 $(document).ready(function(){
   $("#hide").hide();
+  getLocation()
 });
-  var x = document.getElementById("pickup_coordinate");
+  var x = document.getElementById("hide");
   
   function getLocation() {
     if (navigator.geolocation) {
@@ -115,6 +114,7 @@ $(document).ready(function(){
       break;
     }
   }
+
   </script>
 
 <script>
@@ -215,26 +215,29 @@ aria-hidden="true">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-
+            <form class="" action="/logistics/dropOff" method="post">
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Departure Meter Reading</label>
-                                    <input name= "departure_meter_reading" class="form-control" id="departure_meter_reading" required>
+                                    <input name= "meter_reading" class="form-control" id="departure_meter_reading" required>
                                 </div>
                                 
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Departure Fuel Reading</label>
-                                    <input name= "departure_fuel_reading" class="form-control" id="departure_fuel_reading" required>
+                                    <input name= "fuel_reading" class="form-control" id="departure_fuel_reading" required>
               </div>
 
-              <button id='dropoff' class="btn btn-sm btn-success rounded-pill"> Drop off </button>
+              <div id="hide">
+                <input name= "coordinate" class="form-control" id="pickup_coordinate">
+              </div>
+              <button id='dropoff' class="btn btn-sm btn-success rounded-pill" type = 'submit'> Drop off </button>
               <a href="/logistics/endTrip" id='endtrip' class="btn btn-sm btn-danger rounded-pill"> End Trip </a>
-              
+            </form> 
             
         </div>
+
     </div>
 </div>
 
-</form>
 
 
 <script>

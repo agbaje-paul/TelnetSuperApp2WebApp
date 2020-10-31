@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -62,7 +63,7 @@
               <div class="card-body">
                 <div class="row justify-content-between">
                   <div>
-                  <h6 class="card-title d-block">List of Trips</h6>
+                  <h6 class="card-title d-block">Start Trip</h6>
                   </div>
 
                   <div class="d-flex align-items-center flex-wrap text-nowrap ">
@@ -72,49 +73,43 @@
                     </div>
                   </div>
                 </div>
-                <!-- this will need to be updated for the drop off part of the request-->
-                
                 <div class="table-responsive">
-                  <form action="/requests/assign_vehicle" method="post">
                   <table id="dataTableExample" class="table">
                     <thead>
-        
+                        <!-- You may need to add some more feilds in this-->
+                        <!-- you need to come back here and add things in capital letter-->
+                        
                       <tr>
-                        <th>Driver Name</th>
-                        <th>Type</th>
-                        <th>Version Make</th>
-                        <th>Version Model</th>
-                        <th>Version Color</th>
-                        <th>Type of Fuel</th>
-                        <th>Plate Number</th>
-                        <th>Click to Assign</th>
+                        <th>User Name</th>
+                        <th>User Email</th>
+                        <th>User Status </th>
+                        <th>Manage</th>
                       </tr>
                     </thead>
+                    <!-- you may need to come back to change the outlook of the table to make it a two column table-->
                     <tbody>
-                      <% vehicles.forEach((vehicle) => {%>
-                    <!-- here you have to come back to add the pill thing to this page if it is accepted pending or rejected-->
+                      <%  %>
+
+                        
+                      
                         <tr>
-                          <td><%= vehicle.driver_name%></td>
-                          <td><%= vehicle.type%></td>
-                          <td><%= vehicle.vmake%></td>
-                          <td><%= vehicle.vmodel%></td>
-                          <td><%= vehicle.vcolor%></td>
-                          <td><%= vehicle.fuel_type%></td>
-                          <td><%= vehicle.plate%></td>
-                          <td> <a href="/requests/handleassign_vehicle?id=<%= vehicle.id%>" id='<%= vehicle.id%>' class="btn btn-sm btn-success rounded-pill" type="submit" > Assign Vehicle </td>
+                          <td><%=%></td>
+                          <td><%= %></td>
+                          <td> </td>
+                          <td> <a href="/logistics/staffHandleStartTrip" id='<%%>' class="btn btn-sm btn-success rounded-pill" > View Trip</button></td>
                         </tr>
-                        <% })%>
+                        
+                        <%  %>
                     </tbody>
                   </table>
-                </form>
                 </div>
               </div>
             </div>
 					</div>
 				</div>
 
-      </div>
-      
+			</div>
+
 			<!-- partial:partials/_footer.html -->
       <%- include('./bars/footer') %>
 			<!-- partial -->

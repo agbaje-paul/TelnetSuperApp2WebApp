@@ -44,7 +44,8 @@ class Requests {
                 trip_type: req.body.trip_type,
                 request_type: req.body.request_type,
                 upline: userDetails.upline_id,
-                place_set: JSON.parse(req.body.random)
+                place_set: JSON.parse(req.body.random),
+                trip_duration: req.body.duration
             }     
         }
         console.log('the query for the car request is:',query)
@@ -265,6 +266,7 @@ class Requests {
             if (result.statusCode == 200) {
                 if (resbody.driver_admin_status == 'APPROVED'){
                     req.session.approved = resbody
+
                     res.redirect('/requests/assign_vehicle')
                     // here it will not route back because the driver admin approval value is not here.
                 } else {
@@ -287,16 +289,33 @@ class Requests {
         const userDetails = req.session.userDetails;
         const request = req.session.approved;
         const token = userDetails.token;
+        const car_request = req.session.managecar_request
         
         try {
             const {result, resbody} = await listVehicle(token);
             const vehicles = resbody
             if (result.statusCode == 200) {
+                if (typeof(vehicles[0])=='undefined' ) { // this should include the prioriity as well  &&
+                    return res.redirect('/requests/reassign')
+                } 
                 res.render('assignVehicle', {userDetails, request, vehicles});
             } else if (result.statusCode == 401){
                 req.flash('error_msg', resbody.detail);
                 res.redirect('/requests/viewmanage_request')
             }
+        }catch(err) {
+            if (err) return console.error('Error', err);
+        }
+
+    }; 
+
+    static async renderReassign (req, res) {
+        const userDetails = req.session.userDetails;
+        const request = req.session.approved;
+        const token = userDetails.token;
+        
+        try {
+            res.render('reassignPriority', {userDetails})
         }catch(err) {
             if (err) return console.error('Error', err);
         }

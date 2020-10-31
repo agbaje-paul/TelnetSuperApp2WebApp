@@ -150,7 +150,13 @@ class auth_controllers {
 
     static async displayDashboard (req, res) {
         var userDetails = req.session.userDetails
-        res.render('dashboard', {userDetails})
+        if (userDetails.role == 'Staff') {
+            res.render('dashboard_staff', {userDetails}) 
+        } else if (userDetails.role == 'Driver') {
+            res.render('dashboard_driver', {userDetails})
+        } else{
+            res.render('dashboard', {userDetails})
+        }
     };
 
     static async authorization (req, res) {

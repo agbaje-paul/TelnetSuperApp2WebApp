@@ -1,10 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<title>Telnet SuperApp</title>
+	<title>NobleUI Responsive Bootstrap 4 Dashboard Template</title>
 	<!-- core:css -->
 	<link rel="stylesheet" href="../../../assets/vendors/core/core.css">
 	<!-- endinject -->
@@ -25,35 +26,23 @@
 <body>
 	<div class="main-wrapper">
 
-<!-- Insert the sidebar partial here-->
-<% if (userDetails.role == 'Staff') { %>
-  <%- include('./bars/sidebar_staff') %>
-  <% } else if (userDetails.role == 'Supervisor') { %>
-  <%- include('./bars/sidebar_sup') %>  
-  <%  } else if (userDetails.role == 'Driver Admin') { %>
-  <%- include('./bars/sidebar_driver') %>  
-  <%  } else if (userDetails.role == 'Driver') { %>
-  <%- include('./bars/sidebar_carDriver') %>  
-  <%  } else { %>
-  <%- include('./bars/sidebar') %>    
-  <%  } %>
+        <%- include('./bars/admin_sidebar') %>
 		<!-- partial -->
 	
 		<div class="page-wrapper">
 				
 			<!-- partial:partials/_navbar.html, this represents the topbar bar -->
-      <%- include('./bars/topbar') %>
+        <%- include('./bars/admin_topbar') %>
 			<!-- partial -->
 
 			<div class="page-content">
-        <%- include('./partials/messages')%>
-
+        <%- include('.././partials/messages')%>
 				<nav class="page-breadcrumb">
 					<ol class="breadcrumb">
 						<li class="breadcrumb-item"><a href="#">Tables</a></li>
 						<li class="breadcrumb-item active" aria-current="page">Data Table</li>
 					</ol>
-                </nav>
+        </nav>
 
 
 				<div class="row">
@@ -62,61 +51,46 @@
               <div class="card-body">
                 <div class="row justify-content-between">
                   <div>
-                  <h6 class="card-title d-block">List of Trips</h6>
+                  <h6 class="card-title d-block">All Active Users</h6>
+                  <p class="card-description d-block">Latest Request (Showing 01 to 08 of 48 Tickets)</p>
                   </div>
 
-                  <div class="d-flex align-items-center flex-wrap text-nowrap ">
-                    <div class="input-group date datepicker dashboard-date mr-2 mb-2 mb-md-0 d-md-none d-xl-flex" id="dashboardDate">
-                      <span class="input-group-addon bg-transparent"><i data-feather="calendar" class=" text-primary"></i></span>
-                      <input type="text" class="form-control">
-                    </div>
-                  </div>
                 </div>
-                <!-- this will need to be updated for the drop off part of the request-->
-                
                 <div class="table-responsive">
-                  <form action="/requests/assign_vehicle" method="post">
                   <table id="dataTableExample" class="table">
                     <thead>
-        
+
                       <tr>
-                        <th>Driver Name</th>
-                        <th>Type</th>
-                        <th>Version Make</th>
-                        <th>Version Model</th>
-                        <th>Version Color</th>
-                        <th>Type of Fuel</th>
-                        <th>Plate Number</th>
-                        <th>Click to Assign</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                        <th>Title</th>
+                        <th> View User </th>
                       </tr>
                     </thead>
                     <tbody>
-                      <% vehicles.forEach((vehicle) => {%>
-                    <!-- here you have to come back to add the pill thing to this page if it is accepted pending or rejected-->
+                      <% users.forEach((user) => {%>
                         <tr>
-                          <td><%= vehicle.driver_name%></td>
-                          <td><%= vehicle.type%></td>
-                          <td><%= vehicle.vmake%></td>
-                          <td><%= vehicle.vmodel%></td>
-                          <td><%= vehicle.vcolor%></td>
-                          <td><%= vehicle.fuel_type%></td>
-                          <td><%= vehicle.plate%></td>
-                          <td> <a href="/requests/handleassign_vehicle?id=<%= vehicle.id%>" id='<%= vehicle.id%>' class="btn btn-sm btn-success rounded-pill" type="submit" > Assign Vehicle </td>
+                          <td><%= user.first_name + ' ' + user.last_name%></td>
+                          <td><%= user.email %></td>
+                          <td><%= user.phone%></td>
+                          <td><%= user.title%></td>
+                          <td><a href="/admin/manage/viewActiveUsers?id=<%=user.id%>" id='<%=user.id%>' class="btn btn-sm btn-success rounded-pill" > Veiw request</a></td>
+
                         </tr>
                         <% })%>
                     </tbody>
                   </table>
-                </form>
                 </div>
               </div>
             </div>
 					</div>
 				</div>
 
-      </div>
-      
+			</div>
+
 			<!-- partial:partials/_footer.html -->
-      <%- include('./bars/footer') %>
+            <%- include('./bars/admin_footer') %>
 			<!-- partial -->
 	
 		</div>

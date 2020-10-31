@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -15,34 +14,35 @@
 	<link rel="stylesheet" href="../../../assets/fonts/feather-font/css/iconfont.css">
 	<link rel="stylesheet" href="../../../assets/vendors/flag-icon-css/css/flag-icon.min.css">
 	<!-- endinject -->
-  <!-- Layout styles -->  
+	<!-- Layout styles -->
 	<link rel="stylesheet" href="../../../assets/css/demo_1/style.css">
-  <!-- End layout styles -->
-  <link rel="shortcut icon" href="../../../assets/images/favicon.png" />
+	<!-- End layout styles -->
+	<link rel="shortcut icon" href="../../../assets/images/favicon.png" />
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>  
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
+
 <body>
 	<div class="main-wrapper">
 
-        <!-- Insert the sidebar partial here-->
+		<!-- Insert the sidebar partial here-->
 		<% if (userDetails.role == 'Staff') { %>
-			<%- include('./bars/sidebar_staff') %>
-			<% } else if (userDetails.role == 'Supervisor') { %>
-			<%- include('./bars/sidebar_sup') %>  
-			<%  } else if (userDetails.role == 'Driver Admin') { %>
-			<%- include('./bars/sidebar_driver') %>  
-			<%  } else if (userDetails.role == 'Driver') { %>
-			<%- include('./bars/sidebar_carDriver') %>  
-			<%  } else { %>
-			<%- include('./bars/sidebar') %>    
-			<%  } %>
-	
+		<%- include('./bars/sidebar_staff') %>
+		<% } else if (userDetails.role == 'Supervisor') { %>
+		<%- include('./bars/sidebar_sup') %>
+		<%  } else if (userDetails.role == 'Driver Admin') { %>
+		<%- include('./bars/sidebar_driver') %>
+		<%  } else if (userDetails.role == 'Driver') { %>
+		<%- include('./bars/sidebar_carDriver') %>
+		<%  } else { %>
+		<%- include('./bars/sidebar') %>
+		<%  } %>
+
 		<div class="page-wrapper">
-				
-        <!-- partial:partials/_navbar.html, this represents the topbar bar -->
-        <%- include('./bars/topbar') %>
-        <!-- partial -->
+
+			<!-- partial:partials/_navbar.html, this represents the topbar bar -->
+			<%- include('./bars/topbar') %>
+			<!-- partial -->
 
 			<div class="page-content">
 				<%- include('./partials/messages')%>
@@ -52,66 +52,68 @@
 						<li class="breadcrumb-item active" aria-current="page">Create Car Request</li>
 					</ol>
 				</nav>
-				
+
 				<div class="row">
 					<div class="col-md-12 grid-margin stretch-card">
 						<div class="card">
 							<div class="card-body">
 								<h6 class="card-title">Inputs</h6>
 
-								
+
 								<form class="" action="/requests/create_request" method="post">
 									<div class="form-group">
-										<label for="exampleFormControlSelect1 required" >Request type</label>
-										<select class="form-control-lg"  id="request-type" name = "request_type" required>
-											<option selected value = "waitforme"> Waiting</option>
-											<option value = "dropoff">Drop off</option>
+										<label for="exampleFormControlSelect1 required">Request type</label>
+										<select class="form-control-lg" id="request-type" name="request_type" required>
+											<option selected value="waitforme"> Waiting</option>
+											<option value="dropoff">Drop off</option>
 										</select>
 									</div>
 									<div class="form-group">
 										<label for="exampleFormControlSelect1">Trip type</label>
-										<select class="form-control-lg" id="car-request-type" name= "trip_type" onchange = "changeFun()"  required>
-											<option  value = "single" selected>Single Destination</option>
-											<option value = "multiple">Multiple Destination</option>
+										<select class="form-control-lg" id="car-request-type" name="trip_type"
+											onchange="changeFun()" required>
+											<option value="single" selected>Single Destination</option>
+											<option value="multiple">Multiple Destination</option>
 										</select>
-                                    </div>
-                                    
+									</div>
+
 									<div class="form-group">
 										<label for="exampleFormControlSelect1">Destination</label>
-                                        <input name= "destination" class="form-control" id="destination" required>
-                                    </div>
-                                    
+										<input name="destination" class="form-control" id="destination" required>
+									</div>
 
-                                    <div class="form-group">
+
+									<div class="form-group">
 										<label for="exampleFormControlSelect1">Purpose</label>
-                                        <input name= "purpose" class="form-control" id="purpose" required>
+										<input name="purpose" class="form-control" id="purpose" required>
 									</div>
 
 									<div class="form-group">
 										<label for="exampleFormControlSelect1">Duration</label>
-										<select class="form-control-lg" id="duration" name= "duration"  required>
-											<option  value = "30" selected>30 minutes</option>
-											<option value = "60">1 Hour</option>
-											<option  value = "90">1 hour 30 minutes</option>
-											<option value = "120">2 Hour</option>
-											<option  value = "150">2 hours 30 minutes</option>
-											<option value = "180">3 Hour</option>
-											<option  value = "210">3 hours 30 minutes</option>
-											<option value = "240">4 Hour</option>
-											<option  value = "270">4 hours 30 minutes</option>
-											<option value = "300">5 Hour</option>
+										<select class="form-control-lg" id="duration" name="duration" required>
+											<option value="30" selected>30 minutes</option>
+											<option value="60">1 Hour</option>
+											<option value="90">1 hour 30 minutes</option>
+											<option value="120">2 Hour</option>
+											<option value="150">2 hours 30 minutes</option>
+											<option value="180">3 Hour</option>
+											<option value="210">3 hours 30 minutes</option>
+											<option value="240">4 Hour</option>
+											<option value="270">4 hours 30 minutes</option>
+											<option value="300">5 Hour</option>
 										</select>
-                                    </div>
-
-									<div>
-										<p id="addMore" class="btn btn-light"  style="float: right;" onclick = "onclickfunction()">add to list</p>
 									</div>
 
-									<div class="table-responsive" id = "extrafeild"></div>
-									
-								
+									<div>
+										<p id="addMore" class="btn btn-light" style="float: right;"
+											onclick="onclickfunction()">add to list</p>
+									</div>
+
+									<div class="table-responsive" id="extrafeild"></div>
+
+
 									<button class="btn-lg btn-primary" type="submit">Submit request</button>
-									<input name = "random" id = "random" >
+									<input name="random" id="random">
 								</form>
 							</div>
 						</div>
@@ -121,130 +123,130 @@
 			</div>
 
 			<script>
-				$(document).ready(function removeButton(){
-				  $("#addMore").hide()
-				  $("#random").hide()
+				$(document).ready(function removeButton() {
+					$("#addMore").hide()
+					$("#random").hide()
 				});
 			</script>
-			
-						  <script>
-							  var values = [];
-							function changeFun() {
-							  var selectBox = document.getElementById("car-request-type");
-							  var selectedValue = selectBox.options[selectBox.selectedIndex].value;
-			
-							  if (selectedValue == 'multiple') {
-								$("#addMore").show();		
-							  } else if (selectedValue == 'single') {
-							  
-							   $("#addMore").hide();
-							  }
-							};
-							
-			function onclickfunction(){
-			
-				   var location = $('#destination').val();
-				   var purpose = $('#purpose').val();
-					
-					if ( location =='' || purpose == '') {
-					
-			swal("kindly fill all fields!", {
-			  buttons: false,
-			  timer: 2000,  // disappears after 2 seconds
-			});
+
+			<script>
+				var values = [];
+				function changeFun() {
+					var selectBox = document.getElementById("car-request-type");
+					var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+
+					if (selectedValue == 'multiple') {
+						$("#addMore").show();
+					} else if (selectedValue == 'single') {
+
+						$("#addMore").hide();
+					}
+				};
+
+				function onclickfunction() {
+
+					var location = $('#destination').val();
+					var purpose = $('#purpose').val();
+
+					if (location == '' || purpose == '') {
+
+						swal("kindly fill all fields!", {
+							buttons: false,
+							timer: 2000,  // disappears after 2 seconds
+						});
 					} else {
-					
-					var details = {
-						location: location,
-						purpose: purpose
-					};
-					values.push(details);
-					appendFunction();
-					
-					// you can use the array. for each to set a value for the id
-					// or maybe you can use the post using jquery to send this to a route.
-					
-							var html = "<br>"
-							html += "<table class='table table-striped'>";
-							html += "<thead>";
+
+						var details = {
+							location: location,
+							purpose: purpose
+						};
+						values.push(details);
+						appendFunction();
+
+						// you can use the array. for each to set a value for the id
+						// or maybe you can use the post using jquery to send this to a route.
+
+						var html = "<br>"
+						html += "<table class='table table-striped'>";
+						html += "<thead>";
+						html += "<tr>";
+						html += "<th>" + "Location" + "</th>";
+						html += "<th>" + "Purpose" + "</th>";
+						html += "<th>" + "Action" + "</th>";
+						html += "</tr>";
+						html += "</thead>";
+						html += "<tbody>";
+						for (var i = 0; i < values.length; i++) {
 							html += "<tr>";
-							html += "<th>"+"Location"+"</th>";
-							html += "<th>"+"Purpose"+"</th>";
-							html += "<th>"+"Action"+"</th>";
+							html += "<td>" + values[i].location + "</td>";
+							html += "<td>" + values[i].purpose + "</td>";
+							html += "<td class='deleteButton btn btn-default' onClick='deleteFunction(" + i + ")'>remove</td>";
+
 							html += "</tr>";
-							html += "</thead>";
-							html += "<tbody>";
+						}
+						html += "</tbody>"
+						html += "</table>";
+						html += "<br>"
+
+						// display record
+						$("#extrafeild").html(html);
+
+
+
+					}
+				}
+
+				function deleteFunction(param) {
+					values.splice(param, 1)
+					appendFunction()
+
+					var html = "<br>"
+					html += "<table class='table table-striped'>";
+					html += "<thead>";
+					html += "<tr>";
+					html += "<th>" + "Location" + "</th>";
+					html += "<th>" + "Purpose" + "</th>";
+					html += "<th>" + "Action" + "</th>";
+					html += "</tr>";
+					html += "</thead>";
+					html += "<tbody>";
 					for (var i = 0; i < values.length; i++) {
-						html+="<tr>";
-						html+="<td>"+values[i].location+"</td>";
-						html+="<td>"+values[i].purpose+"</td>";
-						html+="<td class='deleteButton btn btn-default' onClick='deleteFunction("+i+")'>remove</td>";
-						
-						html+="</tr>";
+						html += "<tr>";
+						html += "<td>" + values[i].location + "</td>";
+						html += "<td>" + values[i].purpose + "</td>";
+						html += "<td class='deleteButton btn btn-default' onClick='deleteFunction(" + i + ")'>remove</td>";
+
+						html += "</tr>";
 					}
 					html += "</tbody>"
-					html+="</table>";
+					html += "</table>";
 					html += "<br>"
-			
+
 					// display record
 					$("#extrafeild").html(html);
-					
-					
-					
-					}
-			}
-			
-			function deleteFunction(param){
-				values.splice(param, 1)
-				appendFunction()
-			
-				var html = "<br>"
-							html += "<table class='table table-striped'>";
-							html += "<thead>";
-							html += "<tr>";
-							html += "<th>"+"Location"+"</th>";
-							html += "<th>"+"Purpose"+"</th>";
-							html += "<th>"+"Action"+"</th>";
-							html += "</tr>";
-							html += "</thead>";
-							html += "<tbody>";
-					for (var i = 0; i < values.length; i++) {
-						html+="<tr>";
-						html+="<td>"+values[i].location+"</td>";
-						html+="<td>"+values[i].purpose+"</td>";
-						html+="<td class='deleteButton btn btn-default' onClick='deleteFunction("+i+")'>remove</td>";
-						
-						html+="</tr>";
-					}
-					html += "</tbody>"
-					html+="</table>";
-					html += "<br>"
-			
-					// display record
-					$("#extrafeild").html(html);
-			
-							// show
-					if(employmentHistoryList.length > 0){
+
+					// show
+					if (employmentHistoryList.length > 0) {
 						$("#extrafeild").show();
 					};
-					
-
-			}
-
-			function appendFunction() {
-				var x = JSON.stringify(values)
-				$('#random').val(x)
-			}
 
 
-			
-						  </script>
-			
+				}
+
+				function appendFunction() {
+					var x = JSON.stringify(values)
+					$('#random').val(x)
+				}
+
+
+
+			</script>
+
 
 			<!-- partial:partials/_footer.html -->
-            <%- include('./bars/footer') %>
+			<%- include('./bars/footer') %>
 			<!-- partial -->
-	
+
 		</div>
 	</div>
 
@@ -261,4 +263,5 @@
 	<script src="../../../assets/js/file-upload.js"></script>
 	<!-- end custom js for this page -->
 </body>
+
 </html>

@@ -1,0 +1,251 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Telnet SuperApp</title>
+	<!-- core:css -->
+	<link rel="stylesheet" href="../../../assets/vendors/core/core.css">
+	<!-- endinject -->
+	<!-- plugin css for this page -->
+	<!-- end plugin css for this page -->
+	<!-- inject:css -->
+	<link rel="stylesheet" href="../../../assets/fonts/feather-font/css/iconfont.css">
+	<link rel="stylesheet" href="../../../assets/vendors/flag-icon-css/css/flag-icon.min.css">
+	<!-- endinject -->
+  <!-- Layout styles -->  
+	<link rel="stylesheet" href="../../../assets/css/demo_1/style.css">
+  <!-- End layout styles -->
+  <link rel="shortcut icon" href="../../../assets/images/favicon.png" />
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>  
+</head>
+<body>
+	<div class="main-wrapper">
+
+        <!-- Insert the sidebar partial here-->
+        <%- include('./bars/admin_sidebar') %>
+	
+		<div class="page-wrapper">
+				
+        <!-- partial:partials/_navbar.html, this represents the topbar bar -->
+        <%- include('./bars/admin_topbar') %>
+        <!-- partial -->
+
+			<div class="page-content">
+                <%- include('.././partials/messages')%>
+				<nav class="page-breadcrumb">
+					<ol class="breadcrumb">
+						<li class="breadcrumb-item"><a href="#">Request</a></li>
+						<li class="breadcrumb-item active" aria-current="page">Create Car Request</li>
+					</ol>
+				</nav>
+				
+				<div class="row">
+					<div class="col-md-12 grid-margin stretch-card">
+						<div class="card">
+							<div class="card-body">
+								<h6 class="card-title">Inputs</h6>
+
+								
+                                <form class="" action="/admin/manage/createSingleUsers" method="post">
+                                    
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label for="exampleFormControlSelect1">First Name</label>
+                                                <input name= "first_name" class="form-control" id="first_name"  required>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group">
+                                                <label for="exampleFormControlSelect1">Last Name</label>
+                                                <input name= "last_name" class="form-control" id="last_name"  required>
+                                            </div>
+                                        </div>
+									  </div>
+									  
+									  <div class="row">
+										<div class="col">
+                                            <div class="form-group">
+                                                <label for="exampleFormControlSelect1">Email</label>
+                                                <input name= "email" class="form-control" id="email"  required>
+                                            </div>
+										</div>
+										<div class="col">
+                                            <div class="form-group">
+                                                <label for="exampleFormControlSelect1">Phone</label>
+                                                <input name= "phone" class="form-control" id="Phone"  required>
+                                            </div>
+										</div>
+									  </div>
+
+									  <div class="row">
+										<div class="col">
+                                            <div class="form-group">
+                                                <label for="exampleFormControlSelect1">Title</label>
+                                                <input name= "title" class="form-control" id="title"  required>
+                                            </div>
+										</div> 
+
+									  </div>
+
+									  <div class="row">
+										<div class="col">
+											<div class="form-group">
+                                                <label for="exampleFormControlSelect1">Subsidiary</label>
+                                                <select class="form-control" id="subsidiary" name= "subsidiary" onchange = "changeFun()">
+                                                  <option selected> --- </option>
+                                                  <% 
+                                                    subs.forEach((sub, i) => { 
+                                                  %>              
+                                                  <option value = <%= sub.id %> > <%= sub.name %>  </option>
+                                                  <% 
+                                                    }) 
+                                                  %>
+                                                </select>
+                                            </div>
+                                            <script>
+                                                // this did not work because the google API was at the bottom
+                                                $(document).ready(function(){
+                                                  $("#divdepartment").hide();
+                                                  $("#divupline").hide();
+                                                  $("#divrole").hide();
+                                                });
+                                            </script>
+                                      
+                                              <script>
+                                      
+                                                function changeFun_role(){
+                                                  //var subID = $('#subsidiary').val();
+                                      
+                                                  $.get(`https://cors-anywhere.herokuapp.com/http://173.212.213.205:8090/api/v1/accounts/registration_roles`, function(data, status){
+                                                    console.log(data)
+                                                    console.log(status)
+                                                    if (status == "success") {
+                                                      console.log('data', data)
+                                                      var html = "<option selected> --- </option>"
+                                                        for (var i = 0; i < data.length; i++) {
+                                                          html+= "<option value = '"+data[i].id+"'> "+data[i].name+"  </option>" // for some reason this thing does not work when i made it with the select being added here, it could be that you didn't call it properly
+                                                        }
+                                                        // onchange = '"+changeFun2()+"'
+                                                        
+                                                        //display the thing
+                                                        $("#role").html(html);
+                                                        $("#divrole").show();
+                                                      
+                                                      } else {
+                                                          alert("try again or contact the admin.")
+                                                      }
+                                                  });
+                                                }
+                                      
+                                                function changeFun(){
+                                                  var subID = $('#subsidiary').val();
+                                      
+                                                  $.get(`https://cors-anywhere.herokuapp.com/http://173.212.213.205:8090/api/v1/accounts/department/${subID}`, function(data, status){
+                                                    console.log(data)
+                                                    console.log(status)
+                                                    if (status == "success") {
+                                                      console.log('data', data)
+                                                      var html = "<option selected> --- </option>"
+                                                        for (var i = 0; i < data.length; i++) {
+                                                          html+= "<option value = '"+data[i].id+"'> "+data[i].name+"  </option>" // for some reason this thing does not work when i made it with the select being added here, it could be that you didn't call it properly
+                                                        }
+                                                        // onchange = '"+changeFun2()+"'
+                                                        
+                                                        //display the thing
+                                                        $("#department").html(html);
+                                                        $("#divdepartment").show();
+                                                      
+                                                      } else {
+                                                          alert("try again or contact the admin.")
+                                                      }
+                                                  });
+                                                }
+                                      
+                                                function changeFun2() {    
+                                                  var subID = $('#department').val();
+                                                  console.log('Hi');
+                                                  console.log($('#department').val())
+                                                  $.get(`https://cors-anywhere.herokuapp.com/http://173.212.213.205:8090/api/v1/accounts/uplines/${subID}`, function(data, status){
+                                                    console.log(data)
+                                                    console.log(status)
+                                                    if (status == "success") {
+                                                      var html = "<option selected> --- </option>"
+                                                        for (var i = 0; i < data.length; i++) {
+                                                          html+= "<option value = '"+data[i].id+"'> "+data[i].first_name+"  </option>"
+                                                        }  
+                                                        //display the thing
+                                                        $("#upline").html(html);
+                                                        $("#divupline").show();
+                                                      } else {
+                                                          alert("try again or contact the admin.")
+                                                      }
+                                                  });  
+                                                }
+                                              </script>
+										</div>
+										<div class="col">
+											<div class="form-group" id = "divdepartment">
+                                                <label for="exampleFormControlSelect1">Department</label>
+                                                <select class='form-control' id='department' name= 'department'onchange = 'changeFun2()'> 
+            
+                                                </select>
+                                            </div>
+										</div>
+									  </div>
+
+									  <div class="row">
+										<div class="col">
+											<div class="form-group" id="divupline">
+                                                <label for="exampleFormControlSelect1">Upline</label>
+                                                <select class='form-control' id='upline' name= 'upline' onchange = 'changeFun_role()'>
+
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="form-group" id="divrole">
+                                                <label for="exampleFormControlSelect1">Role</label>
+                                                <select class='form-control' id='role' name= 'role'> 
+            
+                                                </select>
+                                            </div>
+										</div>
+									  </div>
+
+
+								<!-- need to come back here to add the list of all the subsidiaries and uplines in case it needs to be changed, just copy from the old registration page-->
+									<button class="btn-lg btn-primary" type="submit">Create User</button>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			
+			<!-- partial:partials/_footer.html -->
+            <%- include('./bars/admin_footer') %>
+			<!-- partial -->
+	
+		</div>
+	</div>
+
+	<!-- core:js -->
+	<script src="../../../assets/vendors/core/core.js"></script>
+	<!-- endinject -->
+	<!-- plugin js for this page -->
+	<!-- end plugin js for this page -->
+	<!-- inject:js -->
+	<script src="../../../assets/vendors/feather-icons/feather.min.js"></script>
+	<script src="../../../assets/js/template.js"></script>
+	<!-- endinject -->
+	<!-- custom js for this page -->
+	<script src="../../../assets/js/file-upload.js"></script>
+	<!-- end custom js for this page -->
+</body>
+</html>

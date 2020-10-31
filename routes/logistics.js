@@ -18,7 +18,13 @@ const {
     handledropOff,
     staffStartTrip,
     staffHandleStartTrip,
-    staffEndTrip
+    staffEndTrip,
+    waitdropOff,
+    waithandledropOff,
+    waitreturn,
+    handlewaitreturn,
+    staffDropoff,
+    //handlestaffDropoff
 } = logistics_controllers;
 
 //you need to change some of these to post requests
@@ -35,11 +41,25 @@ router.get('/handleStartTrip', [checkSession], handleStartTrip)
 
 router.get('/dropOff', checkSession, dropOff)
 router.post('/dropOff', checkSession, handledropOff)
-router.get('/endTrip', [checkSession], endTrip)
+
+// this is the drop off for the waitforme section
+router.get('/waitDropOff', checkSession, waitdropOff)
+router.post('/waitDropOff', checkSession, waithandledropOff)
+
+// this is the section that deals with the waitforme return to office
+router.get('/waitreturn', checkSession, waitreturn)
+router.post('/waitreturn', checkSession, handlewaitreturn)
+
+router.post('/endTrip', [checkSession], endTrip)
 //router.post('/endTrip', [checkSession], handleendTrip)
 
 //theses are the routes for the staff to start and end the trips they have.
 router.get('/staffStartTrip', [checkSession], staffStartTrip)
+
+// //this is the part that has to deal with the drop off of staff
+ router.get('/staffDropoff', [checkSession], staffDropoff)
+// //router.post('/staffDropoff', [checkSession], handlestaffDropoff)
+
 router.get('/staffHandleStartTrip', [checkSession], staffHandleStartTrip)
 
 router.post('/staffEndTrip', [checkSession], staffEndTrip)

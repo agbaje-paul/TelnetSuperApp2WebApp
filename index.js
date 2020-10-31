@@ -16,15 +16,15 @@ var flash = require('connect-flash');
 
 
 const routes = require('./routes/index');
+const admin_routes = require('./admin/routes/index');
 const test = require('./test');
 
 // Terminate the node process if the req.session is not working
 
-if(!config.get('sessionPrivatekey')) {
-    console.log('you need to store your environment variable')
-    throw new Error('The sessionrivatekey has not been set')
-};
-
+// if(!config.get('sessionPrivatekey')) {
+//     console.log('you need to store your environment variable')
+//     throw new Error('The sessionrivatekey has not been set')
+// };
 // set up the view engine
 app.set("view engine", "ejs");
 
@@ -44,7 +44,7 @@ app.use(session({
   resave: true, // this is set to true for some reason i dont really understand
   saveUninitialized: true,
   // cookie: { secure: true } //  why is this not included 
-}))
+}));
 
 // Connect flash
 app.use(flash());
@@ -60,7 +60,8 @@ app.use(function(req, res, next) {
 });
 
 // All the routes.
-app.use('/', routes)
+app.use('/', routes);
+app.use('/admin', admin_routes);
 app.use('/test', test)
 
 

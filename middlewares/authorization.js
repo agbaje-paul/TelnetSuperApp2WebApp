@@ -19,6 +19,15 @@ class Authorize {
 
     };
 
+    static supervisorAuthorize (req, res, next) {
+        if (req.session.userDetails.role == 'Supervisor') {
+            return next()
+        } else {
+            return res.redirect('/authorization')
+        };
+
+    };
+
 };
 
 module.exports = Authorize

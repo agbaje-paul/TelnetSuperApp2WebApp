@@ -18,6 +18,7 @@ const {
     manageMemberRequest,
     manageUplineApprove,
     assignVehicle,
+    renderReassign,
     handleAssignVehicle
 } = request_controllers;
 
@@ -35,6 +36,8 @@ router.get('/viewmanage_request', [checkSession, driverAuthorize], viewmanageReq
 router.get('/viewindividual_request', [checkSession, driverAuthorize], manageMemberRequest);
 
 router.post('/viewindividual_request', [checkSession, driverAuthorize], manageUplineApprove);
+
+router.get('/reassign', [checkSession, driverAuthorize], renderReassign);
 
 // this is to assign a vehicle to a client once the request has been approved
 
