@@ -26,28 +26,17 @@
 <body>
 	<div class="main-wrapper">
 
-<!-- Insert the sidebar partial here-->
-<% if (userDetails.role == 'Staff') { %>
-  <%- include('./bars/sidebar_staff') %>
-  <% } else if (userDetails.role == 'Supervisor') { %>
-  <%- include('./bars/sidebar_sup') %>  
-  <%  } else if (userDetails.role == 'Driver Admin') { %>
-  <%- include('./bars/sidebar_driver') %>  
-  <%  } else if (userDetails.role == 'Driver') { %>
-  <%- include('./bars/sidebar_carDriver') %>  
-  <%  } else { %>
-  <%- include('./bars/sidebar') %>    
-  <%  } %>
-		<!-- partial -->
+        <!-- Insert the sidebar partial here-->
+        <%- include('./bars/admin_sidebar') %>
 	
 		<div class="page-wrapper">
 				
-			<!-- partial:partials/_navbar.html, this represents the topbar bar -->
-      <%- include('./bars/topbar') %>
-			<!-- partial -->
+        <!-- partial:partials/_navbar.html, this represents the topbar bar -->
+        <%- include('./bars/admin_topbar') %>
+        <!-- partial -->
 
 			<div class="page-content">
-        <%- include('./partials/messages')%>
+                <%- include('.././partials/messages')%>
 
 				<nav class="page-breadcrumb">
 					<ol class="breadcrumb">
@@ -63,7 +52,7 @@
               <div class="card-body">
                 <div class="row justify-content-between">
                   <div>
-                  <h6 class="card-title d-block">Start Trip</h6>
+                  <h6 class="card-title d-block">List of Failed Users</h6>
                   </div>
 
                   <div class="d-flex align-items-center flex-wrap text-nowrap ">
@@ -80,26 +69,34 @@
                         <!-- you need to come back here and add things in capital letter-->
                         
                       <tr>
-                        <th>Staff Name</th>
-                        <th>Pickup Address </th>
-                        <th>Destination</th>
-                        <th>Trip Type</th>
-                        <th>Vehicle Information</th>
-                        <th>Start Trip</th>
+                        <th>Email</th>
+                        <th>First Name </th>
+                        <th>Last Name</th>
+                        <th> Phone</th>
+                        <th>Title</th>
+                        <th>Role</th>
+                        <th>Upline</th>
+                        <th>Subsidiary</th>
+                        <th>Department</th>
+                        <th>View</th>
                       </tr>
                     </thead>
                     <!-- you may need to come back to change the outlook of the table to make it a two column table-->
                     <tbody>
-                      <% trip.forEach((item) => { %>
+                      <% details.forEach((item) => { %>
 
                       
                         <tr>
-                          <td><%= item.staff_name%></td>
-                          <td><%= item.pickup_address%></td>
-                          <td><%= item.destination%></td>
-                          <td><%= item.trip_type%></td>
-                          <td><%= item.vehicle_info%></td>
-                          <td> <a href="/logistics/handleStartTrip" id='<%=item.id%>' class="btn btn-sm btn-success rounded-pill" > Start Trip</button></td>
+                          <td><%= item.email%></td>
+                          <td><%= item.first_name%></td>
+                          <td><%= item.last_name%></td>
+                          <td><%= item.phone%></td>
+                          <td><%= item.title%></td>
+                          <td><%= item.role%></td>
+                          <td><%= item.upline%></td>
+                          <td><%= item.subsidiary%></td>
+                          <td><%= item.department%></td>
+                          <td> <a href="/logistics/failed_users" id='<%=item.id%>' class="btn btn-sm btn-success rounded-pill" > View</button></td>
                         </tr>
                         <% }) %>
                     </tbody>
@@ -113,7 +110,7 @@
 			</div>
 
 			<!-- partial:partials/_footer.html -->
-      <%- include('./bars/footer') %>
+            <%- include('./bars/admin_footer') %>
 			<!-- partial -->
 	
 		</div>

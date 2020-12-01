@@ -61,15 +61,15 @@
 
 
 								<form class="" action="/requests/create_request" method="post">
-									<div class="form-group">
+									<div class="form-group" >
 										<label for="exampleFormControlSelect1 required">Request type</label>
-										<select class="form-control-lg" id="request-type" name="request_type" required>
-											<option selected value="waitforme"> Waiting</option>
-											<option value="dropoff">Drop off</option>
+										<select class="form-control-lg" id="request-type" name="request_type" onchange="requestChangeFun()" required>
+											<option selected value="dropoff">Drop off</option>
+											<option  value="waitforme"> Waiting</option>
 										</select>
 									</div>
-									<div class="form-group">
-										<label for="exampleFormControlSelect1">Trip type</label>
+									<div class="form-group" id = "request">
+										<label for="exampleFormControlSelect1" >Trip type</label>
 										<select class="form-control-lg" id="car-request-type" name="trip_type"
 											onchange="changeFun()" required>
 											<option value="single" selected>Single Destination</option>
@@ -126,6 +126,8 @@
 				$(document).ready(function removeButton() {
 					$("#addMore").hide()
 					$("#random").hide()
+					$("#extrafeild").hide()
+					$("#request").hide()
 				});
 			</script>
 
@@ -137,9 +139,23 @@
 
 					if (selectedValue == 'multiple') {
 						$("#addMore").show();
+						$("#extrafeild").show();
 					} else if (selectedValue == 'single') {
 
 						$("#addMore").hide();
+						$("#extrafeild").hide();
+					}
+				};
+
+				function requestChangeFun() {
+					var selectBox = document.getElementById("request-type");
+					var selectedValue = selectBox.options[selectBox.selectedIndex].value;
+
+					if (selectedValue == 'waitforme') {
+						$("#request").show();
+					} else if (selectedValue == 'dropoff') {
+
+						$("#request").hide();
 					}
 				};
 

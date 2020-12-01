@@ -76,44 +76,50 @@
                 </div>
                 <!--- this is the place to insert maps to get the list of the things-->
                 <div id="map" style="height: 400px; width: auto;"></div>
-                <button class="btn-lg btn-primary" type="button"
-                  style="width: 150px; height: 35px; float: right; margin-top: 30px; padding: 0px;" data-toggle="modal"
-                  data-target="#qualificationsModal">End Trip</button>
 
-                <div class="modal fade text-left" id="qualificationsModal" tabindex="-1" role="dialog"
-                  aria-labelledby="myModalLabel1" aria-hidden="true">
-                  <div class="modal-dialog" role="document">
-                    <div class="modal-content">
-                      <div class="modal-header">
-                        <h3 class="modal-title" id="myModalLabel1">Enter your satisfactory level from trip</h3>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
+
+                <form class="" action="/logistics/staffEndTrip" method="post">
+                  <button class="btn-lg btn-danger" type="button"
+                  style="width: 150px; height: 35px; float: right; margin-top: 30px; padding: 0px;"
+                  data-toggle="modal" data-target="#exampleModalCenter">End Trip</button>
+                
+                
+                <!-- Modal -->
+                <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                  aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                  <div class="modal-dialog modal-dialog-centered" role="document">
+                      <div class="modal-content">
+                          <div class="modal-header">
+                              <h5 class="modal-title" id="exampleModalLongTitle">Rate Your Trip</h5>
+                              <button type="button" class="close" data-dismiss="modal"
+                                  aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                              </button>
+                          </div>
+                          <div class="modal-body">
+                
+                            <div class="form-group">
+                              <label for="exampleFormControlSelect1">Level of satisfaction</label>
+                              <select class="form-control-lg" name="level" class="form-control" id="type" required>
+                                <option selected disabled> ---</option>
+                                <option value="5">5 stars</option>
+                                <option value="4"> 4 stars</option>
+                                <option value="3">3 stars </option>
+                                <option value="2"> 2 stars</option>
+                                <option value="1">1 star</option>
+                              </select>
+                            </div>
+                
+                          </div>
+                          <div class="modal-footer">
+                              <button type="button" class="btn btn-secondary"
+                                  data-dismiss="modal">Close</button>
+                              <button type="submit" class="btn btn-danger">End Trip</button>
+                          </div>
                       </div>
-
-                      <form class="" action="/logistics/staffEndTrip" method="post">
-
-                        <div class="form-group">
-                          <label for="exampleFormControlSelect1">Level of satisfaction</label>
-                          <select class="form-control-lg" name="level" class="form-control" id="type" required>
-                            <option selected disabled> ---</option>
-                            <option value="high_unsatisfactory">Highly Unsatisfactory</option>
-                            <option value="unsatisfactory"> Unsatisfactory</option>
-                            <option value="average">Average</option>
-                            <option value="satisfactory"> Satisfactory</option>
-                            <option value="high_satisfactory">Highly Satisfactory</option>
-                          </select>
-                        </div>
-
-                        <button id='dropoff' class="btn btn-sm btn-success rounded-pill" type="submit"> End trip
-                        </button>
-                      </form>
-
-                    </div>
                   </div>
                 </div>
-
-
+                </form>
 
                 <script>
                   var value = $("#random").val()
@@ -137,6 +143,7 @@
                         console.log(status)
                         if (status == "success") {
                           console.log('data', data)
+                          reportTime(data)
                         } else {
                           alert("try again or contact the admin.")
                         }
@@ -190,9 +197,10 @@
                       if (distance < 0) {
                         clearInterval(x);
                         alert('Your trip time has been exceeded, proceed to end trip') // come back to make this req.flash message
-                        return window.location.href = '/logistics/endTrip';
+                        return window.location.href = '/logistics/staffEndTrip';
                       } else if (distance < alerttime) {
-
+                        alert('You have exceeded over 80% of your journey time, ask for extra time to extend')
+                        return
                       }
                     }, 1000);
                   }

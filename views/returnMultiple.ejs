@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Telnet SuperApp</title>
+    <!-- core:css -->
+    <link rel="stylesheet" href="../../../assets/vendors/core/core.css">
+    <!-- endinject -->
+    <!-- plugin css for this page -->
+    <link rel="stylesheet" href="../../../assets/vendors/datatables.net-bs4/dataTables.bootstrap4.css">
+    <link rel="stylesheet" href="../../../assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.css">
+    <!-- end plugin css for this page -->
+    <!-- inject:css -->
+    <link rel="stylesheet" href="../../../assets/fonts/feather-font/css/iconfont.css">
+    <link rel="stylesheet" href="../../../assets/vendors/flag-icon-css/css/flag-icon.min.css">
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="../../../assets/css/demo_1/style.css">
+    <link rel="stylesheet" href="../../../assets/css/demo_1/custom.css">
+    <!-- End layout styles -->
+    <link rel="shortcut icon" href="../../../assets/images/favicon.png" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="css/msc-style.css">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+</head>
+
+<body>
+    <div class="main-wrapper">
+
+        <!-- Insert the sidebar partial here-->
+        <% if (userDetails.role == 'Staff') { %>
+        <%- include('./bars/sidebar_staff') %>
+        <% } else if (userDetails.role == 'Supervisor') { %>
+        <%- include('./bars/sidebar_sup') %>
+        <%  } else if (userDetails.role == 'Driver Admin') { %>
+        <%- include('./bars/sidebar_driver') %>
+        <%  } else if (userDetails.role == 'Driver') { %>
+        <%- include('./bars/sidebar_carDriver') %>
+        <%  } else { %>
+        <%- include('./bars/sidebar') %>
+        <%  } %>
+        <!-- partial -->
+
+        <div class="page-wrapper">
+
+            <!-- partial:partials/_navbar.html, this represents the topbar bar -->
+            <%- include('./bars/topbar') %>
+            <!-- partial -->
+
+            <div class="page-content">
+                <%- include('./partials/messages')%>
+                <nav class="page-breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">Your Trip</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Details</li>
+                        <li class="breadcrumb-item active" aria-current="page">Trip end time: come back ask ayo to
+                            change</li>
+                    </ol>
+                </nav>
+
+
+                <form class="" action="/logistics/multiple_returnToOffice" method="post">
+                    <div class="row">
+                        <div class="col-md-12 grid-margin stretch-card">
+                            <div class="card card-special">
+                                <div class="card-body">
+                                    <div class="row justify-content-between">
+                                        <div>
+                                            <h6 class="card-title d-block">Destination</h6>
+                                        </div>
+                                        <hr>
+                                        <br><br>
+                                        <% var value = { id: userDetails.token, trip: trip.id} %>
+                                        <% value = JSON.stringify (value) %>
+                                    </div>
+
+
+                                    <!--- this is the place to insert maps to get the list of the things-->
+                                    <div id="map" style="height: 400px; width: auto;"></div>
+                                    <button class="btn-lg btn-primary" type="submit"
+                                        style="width: 150px; height: 35px; float: right; margin-top: 30px; padding: 0px;"
+                                        >Return to Office</button>
+
+                </form>
+                <form class="" action="/logistics/multiple_endTrip" method="post">
+                    <button class="btn-lg btn-danger" type="button"
+                        style="width: 150px; height: 35px; float: right; margin-top: 30px; padding: 0px;"
+                        data-toggle="modal" data-target="#qualificationsModal">End Trip</button>
+
+                    <div class="modal fade text-left" id="qualificationsModal" tabindex="-1" role="dialog"
+                        aria-labelledby="myModalLabel1" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h3 class="modal-title" id="myModalLabel1">Enter your satisfactory
+                                        level from trip</h3>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+
+
+                                <div class="container">
+                                    <span id="rateMe2" class="empty-stars"></span>
+                                </div>
+
+                                <button id='dropoff' class="btn btn-sm btn-success rounded-pill" type="submit"> End trip
+                                </button>
+
+
+                            </div>
+                        </div>
+                    </div>
+                </form>
+
+
+                <script>
+                    var value = $("#random").val()
+                    value = JSON.parse(value)
+
+                    $(document).ready(function removeButton() {
+                        $("#random").hide()
+                        $("#tripvalue").hide()
+                        getTime()
+                    });
+
+
+
+
+
+                    // this is the function to get the remaining time
+                    function getTime() {
+                        $.get({
+                            type: 'GET',
+                            url: `https://cors-anywhere.herokuapp.com/http://173.212.213.205:8090/api/v1/core/time_left/${value.trip}`,
+                            contentType: 'application/json',
+                            headers: { "Authorization": `Token ${value.id}` }
+
+                        },
+                            function (data, status) {
+                                console.log(data)
+                                console.log(status)
+                                if (status == "success") {
+                                    console.log('data', data)
+                                } else {
+                                    alert("try again or contact the admin.")
+                                }
+                            });
+                    }
+
+                    function sliceTime(time) {
+                        var str = time;
+                        var array = [];
+                        for (var i = 0; i < 3; i++) { // note the less than means it only do till 2
+                            var start = i * 3;
+                            var end = 2 + (i * 3);
+                            var time = str.slice(start, end);
+                            time = parseInt(time);
+                            alert(time)
+                            array.push(time)
+                        }
+                        return array;
+                    }
+
+                    // all the time in the code will be reported in microseconds
+                    function reportTime(data) {
+                        // var trip_duration = data.trip_duration;
+                        // trip_duration = parseInt(trip_duration) * 1000;
+                        // var alerttime = trip_duration * 0.8;
+                        // var timeremain = sliceTime(data.time_left);
+                        // timeremain_micro = (timeremain[0] * 3600000) + (timeremain[1] * 60000) + (timeremain[0] * 1000)
+                        // if (timeremain_micro == 0) {
+                        // alert('Your trip time has been exceeded, proceed to end trip') // come back to make this req.flash message
+                        // return window.location.href = '/logistics/endTrip';
+                        // }
+
+                        var endtime = data.end_time;
+                        var trip_duration = data.trip_duration;
+                        trip_duration = parseInt(trip_duration) * 1000;
+                        var alerttime = trip_duration * 0.2
+
+                        // Set the date we're counting down to
+                        var countDownTime = Date.parse(endtime); // this is the endtime
+
+                        // Update the count down every 1 second
+                        var x = setInterval(function () {
+
+                            // Get today's date and time
+                            var now = new Date().getTime();
+
+                            // Find the distance between now and the count down date
+                            var distance = countDownTime - now;
+
+                            // If the count down is over, write some text 
+                            if (distance < 0) {
+                                clearInterval(x);
+                                alert('Your trip time has been exceeded, proceed to end trip') // come back to make this req.flash message
+                                return window.location.href = '/logistics/endTrip';
+                            } else if (distance < alerttime) {
+
+                            }
+                        }, 1000);
+                    }
+                </script>
+                <script>
+                    function initMap() {
+                        // Map options
+                        var options = {
+                            zoom: 8,
+                            center: { lat: 42.3601, lng: -71.0589 }
+                        }
+
+                        // New map
+                        var map = new google.maps.Map(document.getElementById('map'), options);
+
+                        // Listen for click on map
+                        google.maps.event.addListener(map, 'click', function (event) {
+                            // Add marker
+                            addMarker({ coords: event.latLng });
+                        });
+
+                        /*
+                        // Add marker
+                        var marker = new google.maps.Marker({
+                          position:{lat:42.4668,lng:-70.9495},
+                          map:map,
+                          icon:'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png'
+                        });
+                    
+                        var infoWindow = new google.maps.InfoWindow({
+                          content:'<h1>Lynn MA</h1>'
+                        });
+                    
+                        marker.addListener('click', function(){
+                          infoWindow.open(map, marker);
+                        });
+                        */
+
+                        // Array of markers
+                        var markers = [
+                            {
+                                coords: { lat: 42.4668, lng: -70.9495 },
+                                iconImage: 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png',
+                                content: '<h1> Telnet Kofo Abayomi </h1>'
+                            },
+                            {
+                                coords: { lat: 42.4668, lng: -70.9495 },
+                                content: '<h1>Amesbury MA</h1>'
+                            },
+                            {
+                                coords: { lat: 42.7762, lng: -71.0773 }
+                            }
+                        ];
+
+                        // Loop through markers
+                        for (var i = 0; i < markers.length; i++) {
+                            // Add marker
+                            addMarker(markers[i]);
+                        }
+
+                        // Add Marker Function
+                        function addMarker(props) {
+                            var marker = new google.maps.Marker({
+                                position: props.coords,
+                                map: map,
+                                //icon:props.iconImage
+                            });
+
+                            // Check for customicon
+                            if (props.iconImage) {
+                                // Set icon image
+                                marker.setIcon(props.iconImage);
+                            }
+
+                            // Check content
+                            if (props.content) {
+                                var infoWindow = new google.maps.InfoWindow({
+                                    content: props.content
+                                });
+
+                                marker.addListener('click', function () {
+                                    infoWindow.open(map, marker);
+                                });
+                            }
+                        }
+                    }
+                </script>
+                <script async defer
+                    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDzIxxHnTz0YcB6mp_QnaPdNuvsiaM1rTw&callback=initMap">
+                    </script>
+
+
+
+
+            </div>
+        </div>
+    </div>
+    </div>
+
+    </div>
+
+    <!-- partial:partials/_footer.html -->
+    <%- include('./bars/footer') %>
+    <!-- partial -->
+
+    </div>
+    </div>
+    <!-- core:js -->
+    <script src="../../../assets/vendors/core/core.js"></script>
+    <!-- endinject -->
+    <!-- plugin js for this page -->
+    <script src="../../../assets/vendors/chartjs/Chart.min.js"></script>
+    <script src="../../../assets/vendors/jquery.flot/jquery.flot.js"></script>
+    <script src="../../../assets/vendors/jquery.flot/jquery.flot.resize.js"></script>
+    <script src="../../../assets/vendors/bootstrap-datepicker/bootstrap-datepicker.min.js"></script>
+    <script src="../../../assets/vendors/apexcharts/apexcharts.min.js"></script>
+    <script src="../../../assets/vendors/progressbar.js/progressbar.min.js"></script>
+    <script src="../../../assets/vendors/datatables.net/jquery.dataTables.js"></script>
+    <script src="../../../assets/vendors/datatables.net-bs4/dataTables.bootstrap4.js"></script>
+    <!-- end plugin js for this page -->
+    <!-- inject:js -->
+    <script src="../../../assets/vendors/feather-icons/feather.min.js"></script>
+    <script src="../../../assets/js/template.js"></script>
+    <!-- endinject -->
+    <!-- custom js for this page -->
+    <script src="../../../assets/js/dashboard.js"></script>
+    <script src="../../../assets/js/data-table.js"></script>
+    <!-- end custom js for this page -->
+</body>
+
+</html>

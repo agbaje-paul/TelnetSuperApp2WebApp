@@ -6,7 +6,8 @@ const {
     updateUsers,
     bulkUpload,
     singleUpload,
-    getSubs
+    getSubs,
+    getInactiveUsers
 } = admin_manage_queries;
 
 class admin_manage_controllers {
@@ -88,7 +89,7 @@ class admin_manage_controllers {
         const token = userDetails.token
 
         try{
-            const {result, resbody} = await getUsers(token);
+            const {result, resbody} = await getInactiveUsers(token);
             const users = resbody;
             req.session.users = resbody;
             if (result.statusCode == '200') {
@@ -216,10 +217,16 @@ class admin_manage_controllers {
         try{
             const {result, resbody} = await bulkUpload(query, token);
             req.session.bulk_upload_response = resbody;
-            if (result.statusCode == '200') {
-                res.redirect('/admin/manage/createUsersResponse')
-            } else {
-                resMessageRedirect(res, req, 'error_msg', 'The user details could not be uploaded contact IT','/admin/manage/createUsers')
+            console.log('resbody one',resbody)
+            if (result.statusCode == '201') {
+                //res.redirect('/admin/manage/createUsersResponse')
+                resMessageRedirect(res, req, 'success_msg', 'You have successfully registered users, Check email to confirm registration','/admin/manage/createUsers')
+        }  else if (result.statusCode == '400') {
+            req.session.failed = resbody
+            console.log('the failed users are',resbody)
+            resMessageRedirect(res, req, 'error_msg', 'The following users could not be uploaded','/admin/manage/get_failed_users')
+        }  else {
+                resMessageRedirect(res, req, 'error_msg', 'Something went wrongg contact admin','/admin/manage/createUsers')
             }
         } catch(err){
             if (err) console.log('error', err)
@@ -278,6 +285,67 @@ class admin_manage_controllers {
                 // there should be a logic here for the 400 error.   
                 else  {
                     resMessageRedirect(res, req, 'error_msg', 'A user could not be created','/admin/manage/createSingleUsers')  
+                }      
+        }
+        catch (err){
+             if (err) return console.error('registration err', err)
+        }
+
+    
+    };
+
+    static async getFailedUsers (req, res) {
+        const userDetails = req.session.userDetails;
+        const token = userDetails.token;
+        const failedUsers = req.session.failed
+        const details = [failedUsers]
+        
+        try {
+            res.render('admin/listFailedUsers', {userDetails, details}); 
+        } catch (err) {
+            if (err) return console.error('display page details error', err)
+        };
+
+    };
+
+    static async failedUsers (req, res) {
+        const userDetails = req.session.userDetails;
+        const token = userDetails.token;
+        const user = req.session.failed
+        
+        try {
+            res.render('admin/failedUsers', {userDetails, subs: subs.resbody}); 
+        } catch (err) {
+            if (err) return console.error('display page details error', err)
+        };
+
+    };
+
+    static async handleFailedUsers (req, res) {
+        const query = {
+            email: req.body.email,
+            first_name: req.body.first_name,
+            last_name: req.body.last_name,
+            phone: req.body.phone,
+            title: req.body.title,
+            password: req.body.password,
+            confirm_password: req.body.password,
+            upline: parseInt(req.body.upline) ,
+            subsidiary: parseInt(req.body.subsidiary),
+            department: parseInt(req.body.department),
+            role: parseInt(req.body.role)
+        }
+
+        console.log('query', query)
+        try{
+               const {result, resbody} = await singleUpload(query);
+
+                if ( result.statusCode == 201 ) {
+                    resMessageRedirect(res, req, 'success_msg', 'You succesfully created a user','/admin/manage/createUsers')         
+                }
+                // there should be a logic here for the 400 error.   
+                else  {
+                    resMessageRedirect(res, req, 'error_msg', 'A user could not be created','/admin/manage/createUsers')  
                 }      
         }
         catch (err){

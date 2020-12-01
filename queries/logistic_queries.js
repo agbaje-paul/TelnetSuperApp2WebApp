@@ -25,7 +25,7 @@ class Logistic_queries {
     };
 
     static async tripStart(token) {
-        const url = 'core/trip';
+        const url = 'core/driver_recent_trip';
         try {
             const {result, resbody} = await getResponse_request(url, token)
             return {result, resbody}

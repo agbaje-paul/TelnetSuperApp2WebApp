@@ -11,6 +11,7 @@ const {
     getSubs,
     createRegister,
     loginRequest,
+    updatePassword,
     getDeb1
 } = auth_queries;
 
@@ -23,8 +24,11 @@ class auth_controllers {
             //const users = await getUsers();
             //const deps = await getDeb();
             const subs = await getSubs();
+            const id = req.query.param
 
-            res.render('register', {subs: subs.resbody}); 
+            req.session.user_reg_id = id
+
+            res.render('register_auth', {subs: subs.resbody}); 
             //this was from the old implementation. it is not needed now
             //,users: users.resbody, deps: deps.resbody});
         } catch (err) {
@@ -49,31 +53,39 @@ class auth_controllers {
 
     // Handle the register post request.
     static async handleRegister (req, res) {
+        const id = req.session.user_reg_id;
+        console.log(id)
+
         const query = {
-            email: req.body.email,
-            first_name: req.body.first_name,
-            last_name: req.body.last_name,
-            phone: req.body.phone,
-            title: req.body.title,
-            password: req.body.password,
-            confirm_password: req.body.confirm_password,
-            upline: parseInt(req.body.upline) ,
-            subsidiary: parseInt(req.body.subsidiary),
-            department: parseInt(req.body.department),
-            role: parseInt(req.body.role)
+            old_password : req.body.old_password,
+            new_password : req.body.confirm_password,
         }
+
+        // const query = {
+        //     email: req.body.email,
+        //     first_name: req.body.first_name,
+        //     last_name: req.body.last_name,
+        //     phone: req.body.phone,
+        //     title: req.body.title,
+        //     password: req.body.password,
+        //     confirm_password: req.body.confirm_password,
+        //     upline: parseInt(req.body.upline) ,
+        //     subsidiary: parseInt(req.body.subsidiary),
+        //     department: parseInt(req.body.department),
+        //     role: parseInt(req.body.role)
+        // }
 
         console.log('query', query)
 
         let errors = [];
         try{
-            const { error, value} = validateRegister(query); // i do not think i am responisble for setting up the status numbers so i deleted a code that was here check if this is the case
-            if (error) {
-                errors.push({msg: 'Something went wrong, Re-Fill your credentials.'}); // error.details[0].message
+            //const { error, value} = validateRegister(query); // i do not think i am responisble for setting up the status numbers so i deleted a code that was here check if this is the case
+            if (req.body.password != req.body.confirm_password) {
+                //errors.push({msg: 'Something went wrong, Re-Fill your credentials.'}); // error.details[0].message
                 // you need to come back to this place and the place that is logging your values and stop routing through a proxy.
-                if (req.body.password != req.body.confirm_password) {
+                //if (req.body.password != req.body.confirm_password) {
                     errors.push({msg: 'Your passwords do not match '})
-                } // the return i placed here made thisexit the function
+                //} // the return i placed here made thisexit the function
                 // this logic has to be fixed.
                 // the validation logic needs to change
                 req.flash('errors', errors);
@@ -81,14 +93,15 @@ class auth_controllers {
                 return res.redirect('/register');
                 
             } else {
-                const {result, resbody} = await createRegister(query);
-
-                if ( result.statusCode == 201 ) {
+                //const {result, resbody} = await createRegister(query);
+                const {result, resbody} = await updatePassword(query, id);
+                console.log(result.statusCode)
+                if ( result.statusCode == 200 ) {
                     req.flash('success_msg', 'You are now registered and can log in');
                     return res.redirect('/login')          
                 }
                 // there should be a logic here for the 400 error.   
-                else if (result.statusCode != 201) {
+                else  {
                     req.flash('error_msg', 'Something went wrong, contact admin');
                     return res.redirect('/register')
                 }  
@@ -126,6 +139,10 @@ class auth_controllers {
         try{
             const {result, resbody} = await loginRequest(query)
             if (result.statusCode == 200){
+                if (resbody.role == 'Super Admin') {
+                    req.flash('error', 'Login to the admin profile');
+                    return res.redirect ('/admin/login')
+                }
                 req.session.userDetails = resbody
                 console.log(req.session.userDetails)
                 res.redirect('/dashboard')

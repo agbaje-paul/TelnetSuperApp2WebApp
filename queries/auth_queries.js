@@ -1,4 +1,4 @@
-const {getResponse, getResponse_get} = require('../utils/query_util');
+const {getResponse, getResponse_get, putResponseparam} = require('../utils/query_util');
 
 class auth_queries {
 
@@ -77,6 +77,18 @@ class auth_queries {
             if (err) console.log('login error', err)
         }
     }
+
+    static async updatePassword(query, id) {
+        const url = `accounts/change_password?param=${id}`
+        console.log('this is the url ', url)
+        try {
+            const {result, resbody} = await putResponseparam(query, url);
+            return {result, resbody};
+        }catch(err){
+            if (err) return console.log(error)
+        }
+
+    };
 };
 
 module.exports = auth_queries

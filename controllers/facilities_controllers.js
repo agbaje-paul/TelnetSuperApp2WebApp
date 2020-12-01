@@ -5,7 +5,8 @@ const {resMessageRedirect} = require('../utils/reusables')
 //store the list of the queries
 const {
     sendRequest,
-    getDrivers
+    getDrivers,
+    listVehicle
 } = facilities_queries;
 
 class Facilities {
@@ -63,6 +64,25 @@ class Facilities {
         } catch (err) {
             if (err) console.log('Error', err)
         }
+    };
+
+    static async vehicleList (req, res) {
+        const userDetails = req.session.userDetails;
+        const token = userDetails.token;
+        
+        try {
+            const {result, resbody} = await listVehicle(token);
+            const vehicles = resbody
+            if (result.statusCode == 200) {
+                res.render('assignVehicleShow', {userDetails, request, vehicles});
+            } else if (result.statusCode == 401){
+                req.flash('error_msg', resbody.detail);
+                res.redirect('/dashboard')
+            }
+        }catch(err) {
+            if (err) return console.error('Error', err);
+        }
+
     };
 };
 

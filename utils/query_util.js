@@ -115,6 +115,25 @@ static putResponse(query, url, token) {
 });
 };
 
+static putResponseparam(query, url) {
+  return new Promise ( (resolve, reject) => {
+  
+      const body = JSON.stringify(query);
+      const options = {
+        headers: {
+          'content-Type': 'application/json'
+        },
+        url: `${baseUrl}${url}`,
+        body,
+      };
+      request.put(options, (error, result, resBody) => {
+        if (error) reject(error);
+        var resbody = JSON.parse(result.body);
+        resolve({result, resbody})
+      });
+});
+};
+
 static postResponse(query, url) {
   return new Promise ( (resolve, reject) => {
   

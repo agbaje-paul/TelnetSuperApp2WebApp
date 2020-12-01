@@ -129,7 +129,11 @@
                           <td><%= item.requester_name%></td>
                           <td><%= item.requester_role%></td>
                           <td><%= item.request_type%></td>
-                          <td><button class="btn btn-danger rounded-pill">Pending</button></td>
+                          <% if (item.driver_admin_approval == 'PENDING') { %>
+                            <td><button class="btn btn-primary rounded-pill">Pending</button></td>
+                          <% }  else { %>
+                            <td><button class="btn btn-danger rounded-pill">Reassign Priority</button></td>
+                          <% }%>
                           <td> <a href="/requests/individual_request?id=<%=item.id%>" id='<%=item.id%>' class="btn btn-sm btn-success rounded-pill" > Veiw request</a></td>
                         </tr>
                         <% })%>

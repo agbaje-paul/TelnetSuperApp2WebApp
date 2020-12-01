@@ -18,7 +18,10 @@ const {
     handleCreateUsers,
     createUsersResponse,
     createSingleUsers,
-    handleCreateSingleUsers
+    handleCreateSingleUsers,
+    failedUsers,
+    handleFailedUsers,
+    getFailedUsers
 } = admin_manage_controllers;
 
 
@@ -46,5 +49,10 @@ router.get('/createUsersResponse', adminCheckSession, createUsersResponse) // yo
 // this part is to add individual users to the platform
 router.get('/createSingleUsers', [adminCheckSession], createSingleUsers)
 router.post('/createSingleUsers', [adminCheckSession], handleCreateSingleUsers)
+
+//for failed users
+router.get('/get_failed_users', [adminCheckSession], getFailedUsers)
+router.get('/failed_users', [adminCheckSession], failedUsers)
+router.post('/failed_users', [adminCheckSession], handleFailedUsers)
 
 module.exports = router;

@@ -30,7 +30,7 @@ class Requests {
         if (req.body.trip_type == 'single') {
             query = {
                 requester: userDetails.id,
-                trip_type: req.body.trip_type,
+                trip_type: 'single',
                 request_type: req.body.request_type,
                 destination: req.body.destination,
                 purpose: req.body.purpose,
@@ -73,12 +73,25 @@ class Requests {
         try{
             const {result, resbody} = await carRequests(token);
             const data_request = resbody;
+            console.log('vehicle request', resbody)
 
             var data = data_request.filter(function (data) {
                 return data.upline_approval == 'PENDING' // need to come back to this to populate the feilds with the data about the users
             });
 
+            var driver = data_request.filter(function (data) {
+                return data.driver_admin_approval == 'DENIED' // need to come back to this to populate the feilds with the data about the users
+            });
 
+            driver = driver[0];
+            if (!driver) {
+                data = data
+            } else {
+                data.push(driver)
+            }
+            
+            console.log(driver)
+            console.log('the data complete', data)
             req.session.carRequests = resbody
             if (result.statusCode == 200) {
                 res.render('request_list',{userDetails, data})
@@ -159,6 +172,7 @@ class Requests {
             upline_reason: req.body.upline_reason,
             trip_duration:  car_request.trip_duration
         };
+        console.log('the query is ', query)
         
         try{
 
@@ -257,6 +271,9 @@ class Requests {
             driver_admin_reason: req.body.driver_admin_reason,
             trip_duration:  car_request.trip_duration 
         };
+
+        console.log("query", query)
+
         
         try{
 

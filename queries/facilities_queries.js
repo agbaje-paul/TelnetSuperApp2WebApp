@@ -23,6 +23,17 @@ class vehicle_queries {
             if (err) console.log('login error', err)
         }
     };
+
+    static async listVehicle(token) {
+        const url = 'vehicle/available';
+        try {
+            const {result, resbody} = await getResponse_request(url, token)
+            return {result, resbody};
+            
+        }catch(err){
+            if (err) console.log('login error', err)
+        }
+    };
 };
 
 module.exports =  vehicle_queries;
